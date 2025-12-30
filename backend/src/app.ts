@@ -5,13 +5,25 @@ import adminRoutes from "./routes/adminRoutes";
 import lectureRoutes from "./routes/lectureRoutes";
 import cashflowRoutes from "./routes/cashflowRoutes";
 
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// ✅ ROOT ROUTE
+app.get("/", (req, res) => {
+  res.json({
+    status: "OK",
+    message: "Backend Sistem Informasi Masjid berjalan 🚀",
+    endpoints: {
+      admin: "/api/admin",
+      lectures: "/api/lectures",
+      cashflows: "/api/cashflows"
+    }
+  });
+});
 
 app.use("/api/admin", adminRoutes);
 app.use("/api/lectures", lectureRoutes);
