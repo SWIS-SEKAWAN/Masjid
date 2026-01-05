@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   static const String baseUrl =
-      'http://192.168.1.15:3000'; // Updated for web access from mobile devices
+      'http://192.168.1.14:3000'; // Updated to computer's IP for mobile access
 
   static Future<Map<String, dynamic>> post(
     String endpoint,

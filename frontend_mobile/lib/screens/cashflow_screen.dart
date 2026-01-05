@@ -44,6 +44,27 @@ class _CashflowScreenState extends State<CashflowScreen> {
       drawer: const CustomDrawer(),
       body: masjidProvider.isLoading
           ? const Center(child: CircularProgressIndicator())
+          : masjidProvider.errorMessage != null
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.error, size: 64, color: Colors.red),
+                  const SizedBox(height: 16),
+                  Text(
+                    masjidProvider.errorMessage!,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () =>
+                        context.read<MasjidProvider>().loadCashflows(),
+                    child: const Text('Coba Lagi'),
+                  ),
+                ],
+              ),
+            )
           : SingleChildScrollView(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -85,15 +106,17 @@ class _CashflowScreenState extends State<CashflowScreen> {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: cashflows.length,
-                    itemBuilder: (context, index) {
-                      final cashflow = cashflows[index];
-                      return _buildCashflowCard(cashflow);
-                    },
-                  ),
+                  cashflows.isEmpty
+                      ? const Text('Tidak ada data transaksi')
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: cashflows.length,
+                          itemBuilder: (context, index) {
+                            final cashflow = cashflows[index];
+                            return _buildCashflowCard(cashflow);
+                          },
+                        ),
                 ],
               ),
             ),
@@ -156,11 +179,7 @@ class _CashflowScreenState extends State<CashflowScreen> {
           '${cashflow.date.day}/${cashflow.date.month}/${cashflow.date.year}',
         ),
         trailing: Text(
-          '${isIncome ? '+' : '-'}${NumberFormat.currency(
-                locale: 'id_ID',
-                symbol: 'Rp ',
-                decimalDigits: 0,
-              ).format(cashflow.amount)}',
+          '${isIncome ? '+' : '-'}${NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ', decimalDigits: 0).format(cashflow.amount)}',
           style: TextStyle(
             color: isIncome ? Colors.green : Colors.red,
             fontWeight: FontWeight.bold,

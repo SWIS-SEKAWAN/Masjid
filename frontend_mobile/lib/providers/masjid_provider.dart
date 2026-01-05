@@ -8,18 +8,21 @@ class MasjidProvider with ChangeNotifier {
   List<Lecture> _lectures = [];
   List<Cashflow> _cashflows = [];
   bool _isLoading = false;
+  String? _errorMessage;
 
   List<Lecture> get lectures => _lectures;
   List<Cashflow> get cashflows => _cashflows;
   bool get isLoading => _isLoading;
+  String? get errorMessage => _errorMessage;
 
   Future<void> loadLectures() async {
     _isLoading = true;
+    _errorMessage = null;
     notifyListeners();
     try {
       _lectures = await LectureService.getLectures();
     } catch (e) {
-      // Handle error
+      _errorMessage = 'Gagal memuat jadwal kajian: $e';
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -28,11 +31,12 @@ class MasjidProvider with ChangeNotifier {
 
   Future<void> loadCashflows() async {
     _isLoading = true;
+    _errorMessage = null;
     notifyListeners();
     try {
       _cashflows = await CashflowService.getCashflows();
     } catch (e) {
-      // Handle error
+      _errorMessage = 'Gagal memuat data cashflow: $e';
     } finally {
       _isLoading = false;
       notifyListeners();
