@@ -3,7 +3,7 @@ import '../models/cashflow.dart';
 
 class CashflowService {
   static Future<List<Cashflow>> getCashflows() async {
-    final data = await ApiService.get('/cashflow');
+    final data = await ApiService.get('/api/cashflows');
     return data.map((json) => Cashflow.fromJson(json)).toList();
   }
 
@@ -14,7 +14,7 @@ class CashflowService {
     DateTime date,
     String token,
   ) async {
-    final response = await ApiService.post('/cashflow', {
+    final response = await ApiService.post('/api/cashflows', {
       'title': title,
       'amount': amount,
       'type': type,

@@ -32,6 +32,29 @@ class _LecturesScreenState extends State<LecturesScreen> {
       drawer: const CustomDrawer(),
       body: masjidProvider.isLoading
           ? const Center(child: CircularProgressIndicator())
+          : masjidProvider.errorMessage != null
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.error, size: 64, color: Colors.red),
+                  const SizedBox(height: 16),
+                  Text(
+                    masjidProvider.errorMessage!,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () =>
+                        context.read<MasjidProvider>().loadLectures(),
+                    child: const Text('Coba Lagi'),
+                  ),
+                ],
+              ),
+            )
+          : masjidProvider.lectures.isEmpty
+          ? const Center(child: Text('Tidak ada jadwal kajian tersedia'))
           : ListView.builder(
               padding: const EdgeInsets.all(16),
               itemCount: masjidProvider.lectures.length,

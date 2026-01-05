@@ -5,7 +5,7 @@ class AuthService {
     String username,
     String password,
   ) async {
-    return await ApiService.post('/admin/login', {
+    return await ApiService.post('/api/admin/login', {
       'username': username,
       'password': password,
     });

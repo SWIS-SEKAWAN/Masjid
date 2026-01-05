@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
@@ -42,7 +42,10 @@ class AdminService {
     return admin;
   }
 
-  async updateAdmin(adminId: number, data: { username?: string; password?: string }) {
+  async updateAdmin(
+    adminId: number,
+    data: { username?: string; password?: string }
+  ) {
     let updateData: any = { ...data };
 
     if (data.password) {

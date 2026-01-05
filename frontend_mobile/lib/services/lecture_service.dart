@@ -3,7 +3,7 @@ import '../models/lecture.dart';
 
 class LectureService {
   static Future<List<Lecture>> getLectures() async {
-    final data = await ApiService.get('/lectures');
+    final data = await ApiService.get('/api/lectures');
     return data.map((json) => Lecture.fromJson(json)).toList();
   }
 
@@ -14,7 +14,7 @@ class LectureService {
     String? description,
     String token,
   ) async {
-    final response = await ApiService.post('/lectures', {
+    final response = await ApiService.post('/api/lectures', {
       'title': title,
       'speaker': speaker,
       'date': date.toIso8601String(),
